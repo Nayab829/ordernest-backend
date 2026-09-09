@@ -1,0 +1,119 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ---------------------------------------
+// BUSINESS — single-tenant-ready, one row for now
+// ---------------------------------------
+model Business {
+  id        Int      @id @default(autoincrement())
+  name      String
+  createdAt DateTime @default(now())
+
+  users    User[]
+  products Product[]
+  orders   Order[]
+}
+
+// ---------------------------------------
+// USER — Owner or Staff, scoped to one Business
+// ---------------------------------------
+enum Role {
+  OWNER
+  STAFF
+}
+
+model User {
+  id           Int      @id @default(autoincrement())
+  email        String   @unique
+  passwordHash String
+  role         Role     @default(STAFF)
+  createdAt    DateTime @default(now())
+
+  businessId Int
+  business   Business @relation(fields: [businessId], references: [id])
+}
+
+// ---------------------------------------
+// PRODUCT — the general item (e.g. "Black Abaya - Classic Cut")
+// ---------------------------------------
+model Product {
+  id          Int      @id @default(autoincrement())
+  name        String
+  description String?
+  createdAt   DateTime @default(now())
+
+  businessId Int
+  business   Business @relation(fields: [businessId], references: [id])
+
+  variants Variant[]
+}
+
+// ---------------------------------------
+// VARIANT — the actual sellable unit (size/color/etc + its own stock/price)
+// ---------------------------------------
+model Variant {
+  id            Int      @id @default(autoincrement())
+  sku           String   @unique
+  size          String?
+  color         String?
+  price         Decimal  @db.Decimal(10, 2)
+  stockQuantity Int      @default(0)
+  lowStockAt    Int      @default(3) // threshold for "low stock" alerts
+  createdAt     DateTime @default(now())
+
+  productId Int
+  product   Product @relation(fields: [productId], references: [id])
+
+  orderItems OrderItem[]
+}
+
+// ---------------------------------------
+// ORDER — the "envelope" (who, when, status)
+// ---------------------------------------
+enum OrderStatus {
+  NEW
+  PROCESSING
+  SHIPPED
+  DELIVERED
+  CANCELLED
+}
+
+model Order {
+  id              Int         @id @default(autoincrement())
+  customerName    String
+  customerContact String?
+  status          OrderStatus @default(NEW)
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+
+  businessId Int
+  business   Business @relation(fields: [businessId], references: [id])
+
+  items OrderItem[]
+}
+
+// ---------------------------------------
+// ORDER ITEM — the "line item" bridging Order and Variant
+// ---------------------------------------
+model OrderItem {
+  id              Int     @id @default(autoincrement())
+  quantity        Int
+  priceAtPurchase Decimal @db.Decimal(10, 2) // snapshot, doesn't change if Variant.price changes later
+
+  orderId Int
+  order   Order @relation(fields: [orderId], references: [id])
+
+  variantId Int
+  variant   Variant @relation(fields: [variantId], references: [id])
+}
