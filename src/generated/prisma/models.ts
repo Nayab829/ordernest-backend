@@ -10,6 +10,7 @@
  */
 export type * from './models/Business'
 export type * from './models/User'
+export type * from './models/Category'
 export type * from './models/Product'
 export type * from './models/Variant'
 export type * from './models/Order'

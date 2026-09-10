@@ -23,6 +23,7 @@ model Business {
   users    User[]
   products Product[]
   orders   Order[]
+  category Category[]
 }
 
 // ---------------------------------------
@@ -45,6 +46,22 @@ model User {
 }
 
 // ---------------------------------------
+// CATEGORY — groups products (e.g. "Abayas", "Hijabs", "Accessories")
+// ---------------------------------------
+model Category {
+  id        Int      @id @default(autoincrement())
+  name      String
+  createdAt DateTime @default(now())
+
+  businessId Int
+  business   Business @relation(fields: [businessId], references: [id])
+
+  products Product[]
+
+  @@unique([businessId, name]) // prevent duplicate category names per business
+}
+
+// ---------------------------------------
 // PRODUCT — the general item (e.g. "Black Abaya - Classic Cut")
 // ---------------------------------------
 model Product {
@@ -54,9 +71,10 @@ model Product {
   createdAt   DateTime @default(now())
 
   businessId Int
-  business   Business @relation(fields: [businessId], references: [id])
-
-  variants Variant[]
+  business   Business  @relation(fields: [businessId], references: [id])
+  categoryId Int?
+  category   Category? @relation(fields: [categoryId], references: [id])
+  variants   Variant[]
 }
 
 // ---------------------------------------
