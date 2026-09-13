@@ -1,12 +1,23 @@
+import { prisma } from "../lib/prisma";
+
 export const createCategory = async (data: {
   name: string;
   businessId: number;
 }) => {
-  // TODO: create a category using prisma.category.create()
+  return await prisma.category.create({
+    data: {
+      name: data.name,
+      businessId: data.businessId,
+    },
+  });
 };
 
 export const getCategories = async (businessId: number) => {
-  // TODO: fetch all categories for this business using prisma.category.findMany()
+  return prisma.category.findMany({
+    where: {
+      businessId,
+    },
+  });
 };
 
 export const getCategoryById = async (id: number, businessId: number) => {
