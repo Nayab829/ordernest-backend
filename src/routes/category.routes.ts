@@ -1,8 +1,19 @@
 import { Router } from "express";
+import authMiddleware from "../middlewares/auth";
+import {
+  createCategoryHandler,
+  deleteCategoryHandler,
+  getCategoriesHandler,
+  getCategoryByIdHandler,
+  updateCategoryHandler,
+} from "../controllers/category.controller";
 
 const router = Router();
 
-// TODO: wire up the 5 routes (POST, GET all, GET one, PUT, DELETE)
-// mirror the pattern from product.routes.ts
+router.post("/", authMiddleware, createCategoryHandler);
+router.get("/", authMiddleware, getCategoriesHandler);
+router.get("/:id", authMiddleware, getCategoryByIdHandler);
+router.put("/:id", authMiddleware, updateCategoryHandler);
+router.delete("/:id", authMiddleware, deleteCategoryHandler);
 
 export default router;
