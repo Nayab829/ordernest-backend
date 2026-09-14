@@ -1,21 +1,61 @@
+import { prisma } from "../lib/prisma";
+
 export const addProductImage = async (data: {
   productId: number;
   url: string;
   isPrimary?: boolean;
 }) => {
-  // TODO: if data.isPrimary is true, unset isPrimary on other images for this productId first
-  // then create the new ProductImage
+  if (data.isPrimary) {
+    await prisma.productImage.updateMany({
+      where: { id: data.productId },
+      data: {
+        isPrimary: false,
+      },
+    });
+  }
+  return prisma.productImage.create({
+    data: {
+      productId: data.productId,
+      url: data.url,
+      isPrimary: data.isPrimary ?? false,
+    },
+  });
 };
 
 export const getProductImages = async (productId: number) => {
-  // TODO: fetch all images for this productId
+  return prisma.productImage.findMany({
+    where: { productId },
+    orderBy: { createdAt: "asc" },
+  });
 };
 
 export const deleteProductImage = async (id: number, businessId: number) => {
-  // TODO: find the image + its product's businessId (use include), verify ownership, then delete
+  const image = await prisma.productImage.findFirst({
+    where: { id },
+    include: { product: true },
+  });
+  if (!image || image?.product.businessId !== businessId) {
+    return null;
+  }
+  await prisma.productImage.delete({ where: { id: id } });
+  return true;
 };
 
-export const setPrimaryImage = async (id: number, productId: number) => {
-  // TODO: unset isPrimary on all images for productId, then set true for this id
-  // (consider prisma.$transaction([...]))
+export const setPrimaryImage = async (id: number) => {
+  const image = await prisma.productImage.findUnique({
+    where: { id },
+  });
+
+  if (!image) return null;
+  const [, updated] = await prisma.$transaction([
+    prisma.productImage.updateMany({
+      where: { id: image.productId },
+      data: { isPrimary: false },
+    }),
+    prisma.productImage.update({
+      where: { id: id },
+      data: { isPrimary: true },
+    }),
+  ]);
+  return updated;
 };

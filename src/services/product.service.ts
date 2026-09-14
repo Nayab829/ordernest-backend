@@ -41,34 +41,38 @@ export const getProducts = async (businessId: number, categoryId?: number) => {
   });
 };
 
-// export const getProductById = async (id: number, businessId: number) => {
-//   return prisma.product.findFirst({
-//     where: { id, businessId },
-//     include: { variants: true, category: true },
-//   });
-// };
+export const getProductById = async (id: number, businessId: number) => {
+  return prisma.product.findFirst({
+    where: { id, businessId },
+    include: { variants: true, category: true },
+  });
+};
 
-// export const updateProduct = async (
-//   id: number,
-//   businessId: number,
-//   data: { name?: string; description?: string; categoryId?: number | null }
-// ) => {
-//   const existing = await prisma.product.findFirst({ where: { id, businessId } });
-//   if (!existing) return null;
+export const updateProduct = async (
+  id: number,
+  businessId: number,
+  data: { name?: string; description?: string; categoryId?: number | null },
+) => {
+  const existing = await prisma.product.findFirst({
+    where: { id, businessId },
+  });
+  if (!existing) return null;
 
-//   return prisma.product.update({
-//     where: { id },
-//     data,
-//     include: { variants: true, category: true },
-//   });
-// };
+  return prisma.product.update({
+    where: { id },
+    data,
+    include: { variants: true, category: true },
+  });
+};
 
-// export const deleteProduct = async (id: number, businessId: number) => {
-//   const existing = await prisma.product.findFirst({ where: { id, businessId } });
-//   if (!existing) return null;
+export const deleteProduct = async (id: number, businessId: number) => {
+  const existing = await prisma.product.findFirst({
+    where: { id, businessId },
+  });
+  if (!existing) return null;
 
-//   await prisma.variant.deleteMany({ where: { productId: id } });
-//   await prisma.product.delete({ where: { id } });
+  await prisma.variant.deleteMany({ where: { productId: id } });
+  await prisma.product.delete({ where: { id } });
 
-//   return true;
-// };
+  return true;
+};
