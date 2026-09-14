@@ -1,4 +1,3 @@
-// src/services/order.service.ts
 import type { Prisma } from "../generated/prisma/client";
 import { prisma } from "../lib/prisma";
 import { canTransition, type OrderStatus } from "../utils/orderStatus";

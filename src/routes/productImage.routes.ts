@@ -13,7 +13,7 @@ const router = Router();
 router.post(
   "/",
   authMiddleware,
-  upload.single("image"),
+  upload.array("images", 5),
   addProductImageHandler,
 );
 router.get("/:productId", authMiddleware, getProductImagesHandler);

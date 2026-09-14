@@ -21,7 +21,12 @@ export const getCategories = async (businessId: number) => {
 };
 
 export const getCategoryById = async (id: number, businessId: number) => {
-  // TODO: fetch a single category, scoped by businessId (use findFirst)
+  return await prisma.category.findFirst({
+    where: {
+      id,
+      businessId,
+    },
+  });
 };
 
 export const updateCategory = async (
@@ -30,15 +35,33 @@ export const updateCategory = async (
   data: { name?: string },
 ) => {
   // TODO:
-  // 1. confirm category exists AND belongs to this businessId
-  // 2. if not found, return null
-  // 3. if found, update it and return the result
+  const category = await prisma.category.findFirst({
+    where: {
+      id,
+      businessId,
+    },
+  });
+  if (!category) return null;
+  return await prisma.category.update({
+    where: { id },
+    data,
+  });
 };
 
 export const deleteCategory = async (id: number, businessId: number) => {
-  // TODO:
-  // 1. confirm category exists AND belongs to this businessId
-  // 2. if not found, return null
-  // 3. if found, delete it and return true
-  // (think about what should happen to Products that reference this category!)
+  const category = await prisma.category.findFirst({
+    where: {
+      id,
+      businessId,
+    },
+  });
+  if (!category) return null;
+  await prisma.product.updateMany({
+    where: { categoryId: id },
+    data: { categoryId: null },
+  });
+  await prisma.category.delete({
+    where: { id },
+  });
+  return true;
 };

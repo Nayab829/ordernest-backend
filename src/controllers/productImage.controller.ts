@@ -5,6 +5,7 @@ import {
   addProductImage,
   deleteProductImage,
   getProductImages,
+  setPrimaryImage,
 } from "../services/productImage.service";
 
 export const addProductImageHandler = async (req: Request, res: Response) => {
@@ -70,5 +71,15 @@ export const deleteProductImageHandler = async (
 };
 
 export const setPrimaryImageHandler = async (req: Request, res: Response) => {
-  // TODO: get id and productId, call service
+  try {
+    const { id } = req.params;
+    const updated = await setPrimaryImage(Number(id));
+    if (!updated) {
+      return res.status(404).json({ message: "Product image not found" });
+    }
+    res.status(200).json(updated);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Failed to update product image" });
+  }
 };
