@@ -5,10 +5,11 @@ import {
   createOrder,
   updateOrderStatusHandler,
 } from "../controllers/order.controller";
+import authMiddleware from "../middlewares/auth";
 
 const router = Router();
 
-router.post("/orders", createOrder);
+router.post("/orders", authMiddleware, createOrder);
 router.patch("/orders/:id/cancel", cancelOrderHandler);
 router.patch("/orders/:id/status", updateOrderStatusHandler);
 export default router;

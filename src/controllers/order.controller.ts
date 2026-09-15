@@ -10,17 +10,13 @@ import type { OrderStatus } from "../utils/orderStatus";
 
 export async function createOrder(req: Request, res: Response) {
   try {
-    const { businessId, customerName, items } = req.body;
+    const { customerName, items } = req.body;
+    const { businessId } = req.user!;
 
-    if (
-      !businessId ||
-      !customerName ||
-      !Array.isArray(items) ||
-      items.length === 0
-    ) {
+    if (!customerName || !Array.isArray(items) || items.length === 0) {
       return res
         .status(400)
-        .json({ error: "businessId, customerName, and items are required" });
+        .json({ error: "customerName, and items are required" });
     }
 
     const order = await placeOrder(businessId, customerName, items);

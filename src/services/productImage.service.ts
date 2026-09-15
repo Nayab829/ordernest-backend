@@ -7,7 +7,7 @@ export const addProductImage = async (data: {
 }) => {
   if (data.isPrimary) {
     await prisma.productImage.updateMany({
-      where: { id: data.productId },
+      where: { productId: data.productId },
       data: {
         isPrimary: false,
       },
@@ -34,7 +34,7 @@ export const deleteProductImage = async (id: number, businessId: number) => {
     where: { id },
     include: { product: true },
   });
-  if (!image || image?.product.businessId !== businessId) {
+  if (image?.product.businessId !== businessId) {
     return null;
   }
   await prisma.productImage.delete({ where: { id: id } });
@@ -49,7 +49,7 @@ export const setPrimaryImage = async (id: number) => {
   if (!image) return null;
   const [, updated] = await prisma.$transaction([
     prisma.productImage.updateMany({
-      where: { id: image.productId },
+      where: { productId: image.productId },
       data: { isPrimary: false },
     }),
     prisma.productImage.update({
