@@ -28,11 +28,28 @@ export const createProductHandler = async (req: Request, res: Response) => {
 
 export const getProductsHandler = async (req: Request, res: Response) => {
   try {
-    const categoryId = req.query.categoryId
-      ? Number(req.query.categoryId)
-      : undefined;
-    const products = await getProducts(req.user!.businessId, categoryId);
-    res.json(products);
+    const {
+      search,
+      categoryId,
+      minPrice,
+      maxPrice,
+      sortBy = "createdAt",
+      order = "desc",
+      page = "1",
+      limit = "20",
+    } = req.query;
+
+    const products = await productService.getFilteredProducts({
+      search: search as string,
+      categoryId: categoryId as string,
+      minPrice: minPrice ? Number(minPrice) : undefined,
+      maxPrice: maxPrice ? Number(maxPrice) : undefined,
+      sortBy: sortBy as string,
+      order: order as "asc" | "desc",
+      page: Number(page),
+      limit: Number(limit),
+    });
+    res.status(200).json(products);
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Failed to fetch products" });
