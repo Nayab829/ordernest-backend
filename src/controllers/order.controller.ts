@@ -4,9 +4,10 @@ import {
   placeOrder,
   cancelOrder,
   updateOrderStatus,
+  getOrderById,
+  getOrders,
 } from "../services/order.service";
 import type { OrderStatus } from "../utils/orderStatus";
-// (Note: businessId is coming from the request body here just for now — once auth/RBAC is in place, this should come from the logged-in user's session/token instead, not something the client sends freely. Flagging this so it's not forgotten.)
 
 export async function createOrder(req: Request, res: Response) {
   try {
@@ -75,6 +76,53 @@ export async function updateOrderStatusHandler(req: Request, res: Response) {
     res.status(400).json({
       error:
         err instanceof Error ? err.message : "Failed to update order status",
+    });
+  }
+}
+
+export async function getOrdersHandler(req: Request, res: Response) {
+  try {
+    // TODO:
+    // 1. get businessId from req.user
+    const businessId = req.user!.businessId;
+
+    const statusQuery = req.query.status;
+
+    const status: OrderStatus | undefined =
+      typeof statusQuery === "string" &&
+      VALID_STATUSES.includes(statusQuery as OrderStatus)
+        ? (statusQuery as OrderStatus)
+        : undefined;
+    const orders = await getOrders(businessId, status);
+    // 4. return the result as JSON
+    res.status(200).json(orders);
+  } catch (err) {
+    res.status(500).json({
+      error: err instanceof Error ? err.message : "Failed to fetch orders",
+    });
+  }
+}
+
+export async function getOrderByIdHandler(req: Request, res: Response) {
+  try {
+    // TODO:
+    // 1. get id from req.params, convert to Number
+    const { id } = req.params;
+    // 2. validate it's a valid number (same pattern as your other handlers)
+    const orderId = Number(id);
+    // 3. get businessId from req.user
+    const businessId = req.user!.businessId;
+    // 4. call getOrderById service function
+    const order = await getOrderById(orderId, businessId);
+    // 5. if not found, return 404
+    if (!order) {
+      return res.status(404).json({ message: "Order not found." });
+    }
+    // 6. otherwise return the order as JSON
+    res.status(200).json(order);
+  } catch (err) {
+    res.status(500).json({
+      error: err instanceof Error ? err.message : "Failed to fetch order",
     });
   }
 }

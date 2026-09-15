@@ -128,3 +128,28 @@ export async function updateOrderStatus(
     });
   });
 }
+
+export async function getOrders(businessId: number, status?: OrderStatus) {
+  return await prisma.order.findMany({
+    where: {
+      businessId: businessId,
+      status: status,
+    },
+    orderBy: { createdAt: "desc" },
+    include: {
+      items: true,
+    },
+  });
+}
+
+export async function getOrderById(orderId: number, businessId: number) {
+  return await prisma.order.findFirst({
+    where: {
+      id: orderId,
+      businessId: businessId,
+    },
+    include: {
+      items: true,
+    },
+  });
+}
