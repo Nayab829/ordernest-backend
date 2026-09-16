@@ -1,3 +1,4 @@
+import type { Prisma } from "../generated/prisma/client";
 import { prisma } from "../lib/prisma";
 interface Product {
   name: string;
@@ -30,15 +31,64 @@ export const createProduct = async (data: Product) => {
   });
 };
 
-export const getProducts = async (businessId: number, categoryId?: number) => {
-  return prisma.product.findMany({
-    where: {
-      businessId,
-      ...(categoryId ? { categoryId } : {}),
-    },
-    include: { variants: true, category: true },
-    orderBy: { createdAt: "desc" },
+const SORTABLE_FIELDS = ["name", "createdAt"];
+
+export const getFilteredProducts = async (filters: {
+  search?: string;
+  categoryId?: number;
+  minPrice?: number;
+  maxPrice?: number;
+  sortBy: string;
+  order: "asc" | "desc";
+  page: number;
+  limit: number;
+}) => {
+  const where: Prisma.ProductWhereInput = {};
+
+  if (filters.search) {
+    where.name = { contains: filters.search, mode: "insensitive" };
+  }
+
+  if (filters.categoryId) {
+    where.categoryId = filters.categoryId;
+  }
+
+  if (filters.minPrice !== undefined || filters.maxPrice !== undefined) {
+    where.variants = {
+      some: {
+        price: {
+          ...(filters.minPrice !== undefined && { gte: filters.minPrice }),
+          ...(filters.maxPrice !== undefined && { lte: filters.maxPrice }),
+        },
+      },
+    };
+  }
+
+  const skip = (filters.page - 1) * filters.limit;
+
+  const sortBy = SORTABLE_FIELDS.includes(filters.sortBy)
+    ? filters.sortBy
+    : "createdAt";
+
+  const products = await prisma.product.findMany({
+    where,
+    orderBy: { [sortBy]: filters.order },
+    skip,
+    take: filters.limit,
+    include: { category: true, reviews: true, variants: true },
   });
+
+  const total = await prisma.product.count({ where });
+
+  return {
+    data: products,
+    pagination: {
+      total,
+      page: filters.page,
+      limit: filters.limit,
+      totalPages: Math.ceil(total / filters.limit),
+    },
+  };
 };
 
 export const getProductById = async (id: number, businessId: number) => {

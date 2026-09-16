@@ -2,8 +2,8 @@ import type { Request, Response } from "express";
 import {
   createProduct,
   deleteProduct,
+  getFilteredProducts,
   getProductById,
-  getProducts,
   updateProduct,
 } from "../services/product.service";
 
@@ -38,10 +38,18 @@ export const getProductsHandler = async (req: Request, res: Response) => {
       page = "1",
       limit = "20",
     } = req.query;
+    // Validate categoryId if present
+    if (categoryId && isNaN(Number(categoryId))) {
+      return res.status(400).json({ message: "Invalid categoryId" });
+    }
 
-    const products = await productService.getFilteredProducts({
+    // Validate order value
+    if (order !== "asc" && order !== "desc") {
+      return res.status(400).json({ message: "order must be 'asc' or 'desc'" });
+    }
+    const products = await getFilteredProducts({
       search: search as string,
-      categoryId: categoryId as string,
+      categoryId: Number(categoryId),
       minPrice: minPrice ? Number(minPrice) : undefined,
       maxPrice: maxPrice ? Number(maxPrice) : undefined,
       sortBy: sortBy as string,
