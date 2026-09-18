@@ -59,9 +59,8 @@ export async function placeOrder(
   });
 }
 
-export async function cancelOrder(orderId: number) {
+export async function cancelOrder(orderId: number, businessId: number) {
   return await prisma.$transaction(async (tx: Prisma.TransactionClient) => {
-    // 1. Fetch the order WITH its items — you need this to know what stock to restore
     const order = await tx.order.findUnique({
       where: { id: orderId },
       include: { items: true },
@@ -102,6 +101,7 @@ export async function cancelOrder(orderId: number) {
 
 export async function updateOrderStatus(
   orderId: number,
+  businessId: number,
   newStatus: OrderStatus,
 ) {
   return await prisma.$transaction(async (tx: Prisma.TransactionClient) => {
