@@ -47,25 +47,73 @@ export async function getLowStockVariants(businessId: number) {
   return lowStockVariants;
 }
 
-import prisma from "../lib/prisma"; // adjust path to your prisma client
-
 export async function getRecentOrders(businessId: number, limit: number) {
-  // TODO: fetch latest `limit` orders where order's business matches businessId
-  // include whatever relations you need (e.g. customer, order items)
-  // orderBy createdAt desc
+  return await prisma.order.findMany({
+    where: {
+      businessId,
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+    take: limit,
+    include: {
+      items: true,
+    },
+  });
 }
 
 export async function getPendingOrders(businessId: number) {
-  // TODO: fetch orders where businessId matches AND status === "PENDING" (or your enum value)
+  return await prisma.order.count({
+    where: {
+      status: "PROCESSING",
+    },
+  });
 }
 
 export async function getBestSellingProducts(
   businessId: number,
   limit: number,
 ) {
-  // TODO: figure out how to aggregate — likely need to group by productId/variantId
-  // across order items, sum quantities, sort desc, take `limit`
-  // check if prisma groupBy works here or if you need raw SQL
+  const grouped = await prisma.orderItem.groupBy({
+    by: ["variantId"],
+    where: {
+      order: {
+        businessId,
+      },
+    },
+    _sum: {
+      quantity: true,
+    },
+    orderBy: {
+      _sum: {
+        quantity: "desc",
+      },
+    },
+    take: limit,
+  });
+
+  const variantIds = grouped.map((g) => g.variantId);
+
+  const variants = await prisma.variant.findMany({
+    where: {
+      id: {
+        in: variantIds,
+      },
+    },
+    include: {
+      product: true,
+    },
+  });
+
+  const result = grouped.map((g) => {
+    const variant = variants.find((v) => v.id === g.variantId);
+    return {
+      variant,
+      totalSold: g._sum.quantity ?? 0,
+    };
+  });
+
+  return result;
 }
 
 export async function getRevenueOverTime(businessId: number, range: string) {
