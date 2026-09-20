@@ -1,7 +1,10 @@
-import type { Request, Response } from "express";
+import type { NextFunction, Request, Response } from "express";
 import {
+  getBestSellingProducts,
   getLowStockVariants,
+  getPendingOrders,
   getRecentOrders,
+  getRevenueOverTime,
   getSalesSummary,
 } from "../services/dashboard.service";
 
@@ -32,33 +35,98 @@ export async function getLowStockVariantsHandler(req: Request, res: Response) {
 }
 
 export async function getRecentOrdersHandler(req: Request, res: Response) {
-  // TODO: extract businessId (from params/auth), validate it
-  // extract & validate optional `limit` query param, set a sensible default
-  // call service, handle errors, send response
   try {
     const businessId = req.user!.businessId;
-    const {limit} = req.query;
-    const recentOrders = await getRecentOrders(businessId,Number(limit))
-    res.status(200).json(recentOrders)
+    const { limit } = req.query;
+    const recentOrders = await getRecentOrders(businessId, Number(limit));
+    res.status(200).json(recentOrders);
   } catch (err) {
-     res.status(500).json({
+    res.status(500).json({
       error:
         err instanceof Error ? err.message : "Failed to fetch recent orders",
-  })
+    });
+  }
 }
 
 export async function getPendingOrdersHandler(req: Request, res: Response) {
-  // TODO: same pattern — validate businessId, call service, respond
+  try {
+    const businessId = req.user!.businessId;
+    const { limit } = req.query;
+    const pendingOrders = await getPendingOrders(businessId);
+    res.status(200).json(pendingOrders);
+  } catch (err) {
+    res.status(500).json({
+      error:
+        err instanceof Error ? err.message : "Failed to fetch pending orders",
+    });
+  }
 }
 
 export async function getBestSellingProductsHandler(
   req: Request,
   res: Response,
 ) {
-  // TODO: validate businessId + limit, call service, respond
+  try {
+    const businessId = req.user!.businessId;
+    const { limit } = req.query;
+    const bestSellingProducts = await getBestSellingProducts(
+      businessId,
+      Number(limit),
+    );
+    res.status(200).json(bestSellingProducts);
+  } catch (err) {
+    res.status(500).json({
+      error:
+        err instanceof Error
+          ? err.message
+          : "Failed to fetch best selling product",
+    });
+  }
 }
 
-export async function getRevenueOverTimeHandler(req: Request, res: Response) {
-  // TODO: validate businessId + range param (e.g. "7d", "30d", "12m")
-  // decide: should invalid range fall back to default or return 400?
+export async function getRevenueOverTimeHandler(
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) {
+  try {
+    const businessId = Number(req.params.businessId ?? req.query.businessId);
+    if (!businessId || Number.isNaN(businessId)) {
+      return res.status(400).json({ error: "Valid businessId is required" });
+    }
+
+    const { startDate, endDate, interval } = req.query;
+
+    if (!startDate || !endDate) {
+      return res
+        .status(400)
+        .json({ error: "startDate and endDate are required" });
+    }
+
+    const parsedStart = new Date(startDate as string);
+    const parsedEnd = new Date(endDate as string);
+
+    if (isNaN(parsedStart.getTime()) || isNaN(parsedEnd.getTime())) {
+      return res.status(400).json({ error: "Invalid date format" });
+    }
+
+    const allowedIntervals = ["day", "week", "month"];
+    const parsedInterval = (interval as string) ?? "day";
+    if (!allowedIntervals.includes(parsedInterval)) {
+      return res
+        .status(400)
+        .json({ error: "interval must be one of: day, week, month" });
+    }
+
+    const data = await getRevenueOverTime(
+      businessId,
+      parsedStart,
+      parsedEnd,
+      parsedInterval as "day" | "week" | "month",
+    );
+
+    return res.status(200).json({ data });
+  } catch (error) {
+    next(error);
+  }
 }

@@ -116,7 +116,45 @@ export async function getBestSellingProducts(
   return result;
 }
 
-export async function getRevenueOverTime(businessId: number, range: string) {
-  // TODO: fetch orders within a date range for businessId
-  // group/aggregate revenue by day/week/month depending on `range`
+type Interval = "day" | "week" | "month";
+
+const VALID_INTERVALS: Interval[] = ["day", "week", "month"];
+
+export async function getRevenueOverTime(
+  businessId: number,
+  startDate: Date,
+  endDate: Date,
+  interval: Interval = "day",
+) {
+  if (!VALID_INTERVALS.includes(interval)) {
+    throw new Error(`Invalid interval: ${interval}`);
+  }
+
+  if (startDate > endDate) {
+    throw new Error("startDate must be before endDate");
+  }
+
+  const result = await prisma.$queryRaw<{ period: Date; revenue: number }[]>`
+    SELECT
+      series.period,
+      COALESCE(SUM(oi.quantity * oi."priceAtPurchase"), 0)::float AS revenue
+    FROM generate_series(
+      DATE_TRUNC(${interval}, ${startDate}::timestamp),
+      DATE_TRUNC(${interval}, ${endDate}::timestamp),
+      ${`1 ${interval}`}::interval
+    ) AS series(period)
+    LEFT JOIN "Order" o
+      ON DATE_TRUNC(${interval}, o."createdAt") = series.period
+      AND o."businessId" = ${businessId}
+      AND o.status != 'CANCELLED'::"OrderStatus"
+    LEFT JOIN "OrderItem" oi
+      ON oi."orderId" = o.id
+    GROUP BY series.period
+    ORDER BY series.period ASC
+  `;
+
+  return result.map((r) => ({
+    period: r.period,
+    revenue: r.revenue,
+  }));
 }
