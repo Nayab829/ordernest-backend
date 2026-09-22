@@ -47,7 +47,8 @@ export const getProductsHandler = async (req: Request, res: Response) => {
     if (order !== "asc" && order !== "desc") {
       return res.status(400).json({ message: "order must be 'asc' or 'desc'" });
     }
-    const products = await getFilteredProducts({
+    const businessId = req.user!.businessId;
+    const products = await getFilteredProducts(businessId, {
       search: search as string,
       categoryId: Number(categoryId),
       minPrice: minPrice ? Number(minPrice) : undefined,

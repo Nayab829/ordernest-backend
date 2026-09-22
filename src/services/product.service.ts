@@ -11,7 +11,7 @@ export const createProduct = async (data: Product) => {
   return prisma.product.create({
     data: {
       name: data.name,
-      description: data.description ?? null, // normalize undefined to null
+      description: data.description ?? null,
       businessId: data.businessId,
       categoryId: data.categoryId ?? null,
       variants: data.variants
@@ -33,17 +33,20 @@ export const createProduct = async (data: Product) => {
 
 const SORTABLE_FIELDS = ["name", "createdAt"];
 
-export const getFilteredProducts = async (filters: {
-  search?: string;
-  categoryId?: number;
-  minPrice?: number;
-  maxPrice?: number;
-  sortBy: string;
-  order: "asc" | "desc";
-  page: number;
-  limit: number;
-}) => {
-  const where: Prisma.ProductWhereInput = {};
+export const getFilteredProducts = async (
+  businessId: number,
+  filters: {
+    search?: string;
+    categoryId?: number;
+    minPrice?: number;
+    maxPrice?: number;
+    sortBy: string;
+    order: "asc" | "desc";
+    page: number;
+    limit: number;
+  },
+) => {
+  const where: Prisma.ProductWhereInput = { businessId };
 
   if (filters.search) {
     where.name = { contains: filters.search, mode: "insensitive" };

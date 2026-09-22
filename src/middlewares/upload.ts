@@ -1,4 +1,4 @@
 import multer from "multer";
 
-const storage = multer.memoryStorage(); // file ko memory mein rakhta hai, disk pe nahi
+const storage = multer.memoryStorage();
 export const upload = multer({ storage });
