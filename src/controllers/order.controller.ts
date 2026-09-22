@@ -33,12 +33,12 @@ export async function cancelOrderHandler(req: Request, res: Response) {
   try {
     const { id } = req.params;
     const orderId = Number(id);
-
+    const { businessId } = req.user!;
     if (!id || isNaN(orderId)) {
       return res.status(400).json({ error: "A valid order ID is required" });
     }
 
-    const order = await cancelOrder(orderId);
+    const order = await cancelOrder(orderId, businessId);
     res.status(200).json(order);
   } catch (err) {
     res.status(400).json({
@@ -59,6 +59,7 @@ export async function updateOrderStatusHandler(req: Request, res: Response) {
     const { id } = req.params;
     const { status } = req.body;
     const orderId = Number(id);
+    const businessId = req.user!.businessId;
 
     if (!id || isNaN(orderId)) {
       return res.status(400).json({ error: "A valid order ID is required" });
@@ -70,7 +71,7 @@ export async function updateOrderStatusHandler(req: Request, res: Response) {
       });
     }
 
-    const order = await updateOrderStatus(orderId, status);
+    const order = await updateOrderStatus(orderId, businessId, status);
     res.status(200).json(order);
   } catch (err) {
     res.status(400).json({
@@ -105,20 +106,20 @@ export async function getOrdersHandler(req: Request, res: Response) {
 
 export async function getOrderByIdHandler(req: Request, res: Response) {
   try {
-    // TODO:
-    // 1. get id from req.params, convert to Number
     const { id } = req.params;
-    // 2. validate it's a valid number (same pattern as your other handlers)
     const orderId = Number(id);
-    // 3. get businessId from req.user
+    if (!id || isNaN(orderId)) {
+      return res.status(400).json({ error: "A valid order ID is required" });
+    }
+
     const businessId = req.user!.businessId;
-    // 4. call getOrderById service function
+
     const order = await getOrderById(orderId, businessId);
-    // 5. if not found, return 404
+
     if (!order) {
       return res.status(404).json({ message: "Order not found." });
     }
-    // 6. otherwise return the order as JSON
+
     res.status(200).json(order);
   } catch (err) {
     res.status(500).json({

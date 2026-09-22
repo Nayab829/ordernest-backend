@@ -90,7 +90,7 @@ export async function getRevenueOverTimeHandler(
   next: NextFunction,
 ) {
   try {
-    const businessId = Number(req.params.businessId ?? req.query.businessId);
+    const businessId = req.user!.businessId;
     if (!businessId || Number.isNaN(businessId)) {
       return res.status(400).json({ error: "Valid businessId is required" });
     }

@@ -66,7 +66,7 @@ export async function cancelOrder(orderId: number, businessId: number) {
       include: { items: true },
     });
 
-    if (!order) {
+    if (!order || order.businessId !== businessId) {
       throw new Error(`Order ${orderId} not found`);
     }
 
@@ -109,7 +109,7 @@ export async function updateOrderStatus(
       where: { id: orderId },
     });
 
-    if (!order) {
+    if (!order || order.businessId !== businessId) {
       throw new Error(`Order ${orderId} not found`);
     }
 

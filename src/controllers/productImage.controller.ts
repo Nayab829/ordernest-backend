@@ -7,6 +7,7 @@ import {
   getProductImages,
   setPrimaryImage,
 } from "../services/productImage.service";
+import { getProductById } from "../services/product.service";
 
 export const addProductImageHandler = async (req: Request, res: Response) => {
   try {
@@ -16,9 +17,19 @@ export const addProductImageHandler = async (req: Request, res: Response) => {
     if (!files || files.length === 0) {
       return res.status(400).json({ message: "No image files provided" });
     }
+
+    // Ownership check
+    const product = await getProductById(
+      Number(productId),
+      req.user!.businessId,
+    );
+    if (!product) {
+      return res.status(404).json({ message: "Product not found" });
+    }
+
     const uploadedImages = [];
     for (let file of files) {
-      const result: any = new Promise((resolve, reject) => {
+      const result: any = await new Promise((resolve, reject) => {
         const stream = cloudinary.uploader.upload_stream(
           { folder: "products" },
           (error, result) => {
