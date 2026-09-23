@@ -1,0 +1,934 @@
+{
+  "info": {
+    "_postman_id": "dccff64b-47b1-4b21-90b9-5c33ae505e8f",
+    "name": "order-nest",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "40222582"
+  },
+  "item": [
+    {
+      "name": "auth",
+      "item": [
+        {
+          "name": "register",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"email\":\"test1@gmail.com\",\r\n    \"password\":\"test1234\",\r\n    \"businessName\":\"Test business\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/register",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "auth", "register"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "login",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"email\":\"test1@gmail.com\",\r\n    \"password\":\"test1234\"   \r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/login",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "auth", "login"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "categories",
+      "item": [
+        {
+          "name": "create",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsImJ1c2luZXNzSWQiOjMsInJvbGUiOiJPV05FUiIsImlhdCI6MTc5MDA4Nzg2NSwiZXhwIjoxNzkwNjkyNjY1fQ.CRlotme2rfIFnFFJGa0MeKG2hBqrMJDsZYzumpBa1uE",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\":\"Khimaar \"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/categories",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "categories"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get all",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsImJ1c2luZXNzSWQiOjMsInJvbGUiOiJPV05FUiIsImlhdCI6MTc5MDA4Nzg2NSwiZXhwIjoxNzkwNjkyNjY1fQ.CRlotme2rfIFnFFJGa0MeKG2hBqrMJDsZYzumpBa1uE",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/categories",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "categories"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get by id",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsImJ1c2luZXNzSWQiOjMsInJvbGUiOiJPV05FUiIsImlhdCI6MTc5MDA4Nzg2NSwiZXhwIjoxNzkwNjkyNjY1fQ.CRlotme2rfIFnFFJGa0MeKG2hBqrMJDsZYzumpBa1uE",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\":\"Khimaar\"\r\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/categories/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "categories", "1"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "update",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsImJ1c2luZXNzSWQiOjMsInJvbGUiOiJPV05FUiIsImlhdCI6MTc5MDA4Nzg2NSwiZXhwIjoxNzkwNjkyNjY1fQ.CRlotme2rfIFnFFJGa0MeKG2hBqrMJDsZYzumpBa1uE",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\":\"Khimar updated\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/categories/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "categories", "1"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "delete",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsImJ1c2luZXNzSWQiOjMsInJvbGUiOiJPV05FUiIsImlhdCI6MTc5MDA4Nzg2NSwiZXhwIjoxNzkwNjkyNjY1fQ.CRlotme2rfIFnFFJGa0MeKG2hBqrMJDsZYzumpBa1uE",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\":\"Khimaar\"\r\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/categories/2",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "categories", "2"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "products",
+      "item": [
+        {
+          "name": "create",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsImJ1c2luZXNzSWQiOjMsInJvbGUiOiJPV05FUiIsImlhdCI6MTc5MDA4Nzg2NSwiZXhwIjoxNzkwNjkyNjY1fQ.CRlotme2rfIFnFFJGa0MeKG2hBqrMJDsZYzumpBa1uE",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n      \"name\": \"Black Abaya\",\r\n      \"description\": \"Timeless open-front abaya in flowing nida fabric.\",\r\n      \"categoryId\": 1,\r\n      \"variants\": [\r\n        {\r\n          \"sku\": \"ABY-BLK-S-03\",\r\n          \"size\": \"S\",\r\n          \"color\": \"Black\",\r\n          \"price\": 45,\r\n          \"stockQuantity\": 12,\r\n          \"lowStockAt\": 3\r\n        },\r\n        {\r\n          \"sku\": \"ABY-BLK-M-03\",\r\n          \"size\": \"M\",\r\n          \"color\": \"Black\",\r\n          \"price\": 45,\r\n          \"stockQuantity\": 2,\r\n          \"lowStockAt\": 3\r\n        },\r\n        {\r\n          \"sku\": \"ABY-BLK-L-03\",\r\n          \"size\": \"L\",\r\n          \"color\": \"Black\",\r\n          \"price\": 47,\r\n          \"stockQuantity\": 8,\r\n          \"lowStockAt\": 3\r\n        }\r\n      ]\r\n    }",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/products",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "products"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get all",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsImJ1c2luZXNzSWQiOjMsInJvbGUiOiJPV05FUiIsImlhdCI6MTc5MDA4Nzg2NSwiZXhwIjoxNzkwNjkyNjY1fQ.CRlotme2rfIFnFFJGa0MeKG2hBqrMJDsZYzumpBa1uE",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n      \"name\": \"Classic Black Abaya\",\r\n      \"description\": \"Timeless open-front abaya in flowing nida fabric.\",\r\n      \"categoryId\": 1,\r\n      \"variants\": [\r\n        {\r\n          \"sku\": \"ABY-BLK-S\",\r\n          \"size\": \"S\",\r\n          \"color\": \"Black\",\r\n          \"price\": 45,\r\n          \"stockQuantity\": 12,\r\n          \"lowStockAt\": 3\r\n        },\r\n        {\r\n          \"sku\": \"ABY-BLK-M\",\r\n          \"size\": \"M\",\r\n          \"color\": \"Black\",\r\n          \"price\": 45,\r\n          \"stockQuantity\": 2,\r\n          \"lowStockAt\": 3\r\n        },\r\n        {\r\n          \"sku\": \"ABY-BLK-L\",\r\n          \"size\": \"L\",\r\n          \"color\": \"Black\",\r\n          \"price\": 47,\r\n          \"stockQuantity\": 8,\r\n          \"lowStockAt\": 3\r\n        }\r\n      ]\r\n    }"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/products",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "products"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get by id",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsImJ1c2luZXNzSWQiOjMsInJvbGUiOiJPV05FUiIsImlhdCI6MTc5MDA4Nzg2NSwiZXhwIjoxNzkwNjkyNjY1fQ.CRlotme2rfIFnFFJGa0MeKG2hBqrMJDsZYzumpBa1uE",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n      \"name\": \"Classic Black Abaya\",\r\n      \"description\": \"Timeless open-front abaya in flowing nida fabric.\",\r\n      \"categoryId\": 1,\r\n      \"variants\": [\r\n        {\r\n          \"sku\": \"ABY-BLK-S\",\r\n          \"size\": \"S\",\r\n          \"color\": \"Black\",\r\n          \"price\": 45,\r\n          \"stockQuantity\": 12,\r\n          \"lowStockAt\": 3\r\n        },\r\n        {\r\n          \"sku\": \"ABY-BLK-M\",\r\n          \"size\": \"M\",\r\n          \"color\": \"Black\",\r\n          \"price\": 45,\r\n          \"stockQuantity\": 2,\r\n          \"lowStockAt\": 3\r\n        },\r\n        {\r\n          \"sku\": \"ABY-BLK-L\",\r\n          \"size\": \"L\",\r\n          \"color\": \"Black\",\r\n          \"price\": 47,\r\n          \"stockQuantity\": 8,\r\n          \"lowStockAt\": 3\r\n        }\r\n      ]\r\n    }"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/products/3",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "products", "3"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "update",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsImJ1c2luZXNzSWQiOjMsInJvbGUiOiJPV05FUiIsImlhdCI6MTc5MDA4Nzg2NSwiZXhwIjoxNzkwNjkyNjY1fQ.CRlotme2rfIFnFFJGa0MeKG2hBqrMJDsZYzumpBa1uE",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n       \"description\": \"Timeless open-front abaya in flowing nida fabric.\",\r\n       \"name\":\"Classic Black Abaya\"\r\n    }",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/products/3",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "products", "3"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "delete",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsImJ1c2luZXNzSWQiOjMsInJvbGUiOiJPV05FUiIsImlhdCI6MTc5MDA4Nzg2NSwiZXhwIjoxNzkwNjkyNjY1fQ.CRlotme2rfIFnFFJGa0MeKG2hBqrMJDsZYzumpBa1uE",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n       \"description\": \"Timeless open-front abaya in flowing nida fabric. updated\",\r\n    }"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/products/4",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "products", "4"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "product-image",
+      "item": [
+        {
+          "name": "add",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsImJ1c2luZXNzSWQiOjMsInJvbGUiOiJPV05FUiIsImlhdCI6MTc5MDA4Nzg2NSwiZXhwIjoxNzkwNjkyNjY1fQ.CRlotme2rfIFnFFJGa0MeKG2hBqrMJDsZYzumpBa1uE",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "images",
+                  "type": "file",
+                  "uuid": "efe10817-6adc-467a-99ae-8de5586a717f",
+                  "src": "/C:/Users/nayab/Downloads/banner1.jpeg"
+                },
+                {
+                  "key": "images",
+                  "type": "file",
+                  "uuid": "54fe1e81-227a-455e-a9fc-60b30bba01ce",
+                  "src": "/C:/Users/nayab/Downloads/banner2.jpeg"
+                },
+                {
+                  "key": "productId",
+                  "value": "3",
+                  "type": "text",
+                  "uuid": "f0b17b03-deba-42a5-80f7-7f29e5200a39"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/product-images",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "product-images"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsImJ1c2luZXNzSWQiOjMsInJvbGUiOiJPV05FUiIsImlhdCI6MTc5MDA4Nzg2NSwiZXhwIjoxNzkwNjkyNjY1fQ.CRlotme2rfIFnFFJGa0MeKG2hBqrMJDsZYzumpBa1uE",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/product-images/3",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "product-images", "3"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "delete",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsImJ1c2luZXNzSWQiOjMsInJvbGUiOiJPV05FUiIsImlhdCI6MTc5MDA4Nzg2NSwiZXhwIjoxNzkwNjkyNjY1fQ.CRlotme2rfIFnFFJGa0MeKG2hBqrMJDsZYzumpBa1uE",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/product-images/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "product-images", "1"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "set primary",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsImJ1c2luZXNzSWQiOjMsInJvbGUiOiJPV05FUiIsImlhdCI6MTc5MDA4Nzg2NSwiZXhwIjoxNzkwNjkyNjY1fQ.CRlotme2rfIFnFFJGa0MeKG2hBqrMJDsZYzumpBa1uE",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/product-images/5/primary",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "product-images", "5", "primary"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "reviews",
+      "item": [
+        {
+          "name": "add",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsImJ1c2luZXNzSWQiOjMsInJvbGUiOiJPV05FUiIsImlhdCI6MTc5MDA4Nzg2NSwiZXhwIjoxNzkwNjkyNjY1fQ.CRlotme2rfIFnFFJGa0MeKG2hBqrMJDsZYzumpBa1uE",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"productId\": 3,\r\n  \"customerName\":\"soma\",\r\n  \"rating\": 2,\r\n  \"comment\": \"average.\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/reviews",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "reviews"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get reviews",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsImJ1c2luZXNzSWQiOjMsInJvbGUiOiJPV05FUiIsImlhdCI6MTc5MDA4Nzg2NSwiZXhwIjoxNzkwNjkyNjY1fQ.CRlotme2rfIFnFFJGa0MeKG2hBqrMJDsZYzumpBa1uE",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"productId\": 3,\r\n  \"customerName\":\"soma\",\r\n  \"rating\": 2,\r\n  \"comment\": \"average.\"\r\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/reviews/3",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "reviews", "3"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "delete",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsImJ1c2luZXNzSWQiOjMsInJvbGUiOiJPV05FUiIsImlhdCI6MTc5MDA4Nzg2NSwiZXhwIjoxNzkwNjkyNjY1fQ.CRlotme2rfIFnFFJGa0MeKG2hBqrMJDsZYzumpBa1uE",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/reviews/3",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "reviews", "3"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "orders",
+      "item": [
+        {
+          "name": "place order",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsImJ1c2luZXNzSWQiOjMsInJvbGUiOiJPV05FUiIsImlhdCI6MTc5MDA4Nzg2NSwiZXhwIjoxNzkwNjkyNjY1fQ.CRlotme2rfIFnFFJGa0MeKG2hBqrMJDsZYzumpBa1uE",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"customerName\":\"sania\",\r\n    \"items\":[\r\n        {\r\n            \"variantId\":5,\r\n            \"quantity\":1\r\n        },\r\n         {\r\n            \"variantId\":6,\r\n            \"quantity\":1\r\n        }\r\n\r\n    ]\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/orders",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "orders"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get all",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsImJ1c2luZXNzSWQiOjMsInJvbGUiOiJPV05FUiIsImlhdCI6MTc5MDA4Nzg2NSwiZXhwIjoxNzkwNjkyNjY1fQ.CRlotme2rfIFnFFJGa0MeKG2hBqrMJDsZYzumpBa1uE",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"customerName\":\"sania\",\r\n    \"items\":[\r\n        {\r\n            \"variantId\":5,\r\n            \"quantity\":1\r\n        },\r\n         {\r\n            \"variantId\":6,\r\n            \"quantity\":1\r\n        }\r\n\r\n    ]\r\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/orders",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "orders"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get by id",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsImJ1c2luZXNzSWQiOjMsInJvbGUiOiJPV05FUiIsImlhdCI6MTc5MDA4Nzg2NSwiZXhwIjoxNzkwNjkyNjY1fQ.CRlotme2rfIFnFFJGa0MeKG2hBqrMJDsZYzumpBa1uE",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"customerName\":\"sania\",\r\n    \"items\":[\r\n        {\r\n            \"variantId\":5,\r\n            \"quantity\":1\r\n        },\r\n         {\r\n            \"variantId\":6,\r\n            \"quantity\":1\r\n        }\r\n\r\n    ]\r\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/orders/8",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "orders", "8"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "update status",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsImJ1c2luZXNzSWQiOjMsInJvbGUiOiJPV05FUiIsImlhdCI6MTc5MDA4Nzg2NSwiZXhwIjoxNzkwNjkyNjY1fQ.CRlotme2rfIFnFFJGa0MeKG2hBqrMJDsZYzumpBa1uE",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"status\":\"DELIVERED\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/orders/9/status",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "orders", "9", "status"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "cancel",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsImJ1c2luZXNzSWQiOjMsInJvbGUiOiJPV05FUiIsImlhdCI6MTc5MDA4Nzg2NSwiZXhwIjoxNzkwNjkyNjY1fQ.CRlotme2rfIFnFFJGa0MeKG2hBqrMJDsZYzumpBa1uE",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"status\":\"PROCESSING\"\r\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/orders/8/cancel",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "orders", "8", "cancel"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "dashboard",
+      "item": [
+        {
+          "name": "getsales summary",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsImJ1c2luZXNzSWQiOjMsInJvbGUiOiJPV05FUiIsImlhdCI6MTc5MDA4Nzg2NSwiZXhwIjoxNzkwNjkyNjY1fQ.CRlotme2rfIFnFFJGa0MeKG2hBqrMJDsZYzumpBa1uE",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"status\":\"PROCESSING\"\r\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/dashboard/sales-summary",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "dashboard", "sales-summary"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "low stock",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsImJ1c2luZXNzSWQiOjMsInJvbGUiOiJPV05FUiIsImlhdCI6MTc5MDA4Nzg2NSwiZXhwIjoxNzkwNjkyNjY1fQ.CRlotme2rfIFnFFJGa0MeKG2hBqrMJDsZYzumpBa1uE",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/dashboard/low-stock",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "dashboard", "low-stock"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "recent orders",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsImJ1c2luZXNzSWQiOjMsInJvbGUiOiJPV05FUiIsImlhdCI6MTc5MDA4Nzg2NSwiZXhwIjoxNzkwNjkyNjY1fQ.CRlotme2rfIFnFFJGa0MeKG2hBqrMJDsZYzumpBa1uE",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/dashboard/recent-orders?limit=2",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "dashboard", "recent-orders"],
+              "query": [
+                {
+                  "key": "limit",
+                  "value": "2",
+                  "type": "text"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "panding orders",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsImJ1c2luZXNzSWQiOjMsInJvbGUiOiJPV05FUiIsImlhdCI6MTc5MDA4Nzg2NSwiZXhwIjoxNzkwNjkyNjY1fQ.CRlotme2rfIFnFFJGa0MeKG2hBqrMJDsZYzumpBa1uE",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/dashboard/pending-orders",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "dashboard", "pending-orders"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "best selling",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsImJ1c2luZXNzSWQiOjMsInJvbGUiOiJPV05FUiIsImlhdCI6MTc5MDA4Nzg2NSwiZXhwIjoxNzkwNjkyNjY1fQ.CRlotme2rfIFnFFJGa0MeKG2hBqrMJDsZYzumpBa1uE",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/dashboard/best-selling?limit=1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "dashboard", "best-selling"],
+              "query": [
+                {
+                  "key": "limit",
+                  "value": "1",
+                  "type": "text"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "revenue",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsImJ1c2luZXNzSWQiOjMsInJvbGUiOiJPV05FUiIsImlhdCI6MTc5MDA4Nzg2NSwiZXhwIjoxNzkwNjkyNjY1fQ.CRlotme2rfIFnFFJGa0MeKG2hBqrMJDsZYzumpBa1uE",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/dashboard/revenue?startDate=2026-09-01&endDate=2026-09-23&interval=month",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "dashboard", "revenue"],
+              "query": [
+                {
+                  "key": "startDate",
+                  "value": "2026-09-01"
+                },
+                {
+                  "key": "endDate",
+                  "value": "2026-09-23"
+                },
+                {
+                  "key": "interval",
+                  "value": "month"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [""]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [""]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": ""
+    }
+  ]
+}
