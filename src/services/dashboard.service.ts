@@ -65,7 +65,8 @@ export async function getRecentOrders(businessId: number, limit: number) {
 export async function getPendingOrders(businessId: number) {
   return await prisma.order.count({
     where: {
-      status: "PROCESSING",
+      businessId,
+      status: "NEW",
     },
   });
 }
