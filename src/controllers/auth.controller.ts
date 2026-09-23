@@ -1,6 +1,6 @@
 // src/controllers/auth.controller.ts
 import type { Request, Response } from "express";
-import { login, signup } from "../services/auth.service";
+import { getCurrentUser, login, signup } from "../services/auth.service";
 
 export async function signupHandler(req: Request, res: Response) {
   try {
@@ -42,6 +42,28 @@ export async function loginHandler(req: Request, res: Response) {
   } catch (err) {
     res.status(401).json({
       error: err instanceof Error ? err.message : "Login failed",
+    });
+  }
+}
+
+export async function getCurrentUserHandler(req: Request, res: Response) {
+  try {
+    const userId = req.user!.userId;
+
+    const user = await getCurrentUser(Number(userId));
+
+    if (!user) {
+      return res.status(404).json({
+        message: "User not found",
+      });
+    }
+
+    return res.status(200).json(user);
+  } catch (error) {
+    console.error("Get current user error:", error);
+
+    return res.status(500).json({
+      message: "Failed to fetch user",
     });
   }
 }

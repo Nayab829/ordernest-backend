@@ -74,3 +74,16 @@ export async function login(input: LoginInput) {
 
   return { token };
 }
+export async function getCurrentUser(userId: number) {
+  return await prisma.user.findUnique({
+    where: {
+      id: userId,
+    },
+    select: {
+      id: true,
+      email: true,
+      role: true,
+      businessId: true,
+    },
+  });
+}
