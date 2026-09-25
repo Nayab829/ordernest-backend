@@ -164,16 +164,20 @@ model OrderItem {
 // BANNER — Promotional banners (desktop & mobile)
 // ---------------------------------------
 model Banner {
-  id              Int      @id @default(autoincrement())
-  title           String
-  desktopImageUrl String
-  mobileImageUrl  String
-  link            String?
-  isActive        Boolean  @default(true)
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
+  id           Int      @id @default(autoincrement())
+  title        String?
+  desktopImage  String
+  mobileImage   String
+  link          String?
+  isActive      Boolean  @default(true)
+  sortOrder     Int      @default(0)
 
-  businessId Int
-  business   Business @relation(fields: [businessId], references: [id])
+  businessId   Int
+  business     Business  @relation(fields: [businessId], references: [id], onDelete: Cascade)
+
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+ 
 }
 

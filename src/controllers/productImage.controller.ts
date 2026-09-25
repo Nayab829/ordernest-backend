@@ -8,6 +8,7 @@ import {
   setPrimaryImage,
 } from "../services/productImage.service";
 import { getProductById } from "../services/product.service";
+import { uploadToCloudinary } from "../utils/cloudinaryUpload";
 
 export const addProductImageHandler = async (req: Request, res: Response) => {
   try {
@@ -27,25 +28,16 @@ export const addProductImageHandler = async (req: Request, res: Response) => {
       return res.status(404).json({ message: "Product not found" });
     }
 
-    const uploadedImages = [];
-    for (let file of files) {
-      const result: any = await new Promise((resolve, reject) => {
-        const stream = cloudinary.uploader.upload_stream(
-          { folder: "products" },
-          (error, result) => {
-            if (error) reject(error);
-            else resolve(result);
-          },
-        );
-        stream.end(file.buffer);
-      });
-      const savedImage = await addProductImage({
-        productId: Number(productId),
-        url: result.secure_url,
-        isPrimary: isPrimary === "true",
-      });
-      uploadedImages.push(savedImage);
-    }
+   const uploadedImages = [];
+for (let file of files) {
+  const result: any = await uploadToCloudinary(file, "products");
+  const savedImage = await addProductImage({
+    productId: Number(productId),
+    url: result.secure_url,
+    isPrimary: isPrimary === "true",
+  });
+  uploadedImages.push(savedImage);
+}
     res.status(201).json({ images: uploadedImages });
   } catch (err) {
     console.error(err);

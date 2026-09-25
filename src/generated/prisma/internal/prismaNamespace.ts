@@ -1313,13 +1313,14 @@ export type OrderItemScalarFieldEnum = (typeof OrderItemScalarFieldEnum)[keyof t
 export const BannerScalarFieldEnum = {
   id: 'id',
   title: 'title',
-  desktopImageUrl: 'desktopImageUrl',
-  mobileImageUrl: 'mobileImageUrl',
+  desktopImage: 'desktopImage',
+  mobileImage: 'mobileImage',
   link: 'link',
   isActive: 'isActive',
+  sortOrder: 'sortOrder',
+  businessId: 'businessId',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  businessId: 'businessId'
+  updatedAt: 'updatedAt'
 } as const
 
 export type BannerScalarFieldEnum = (typeof BannerScalarFieldEnum)[keyof typeof BannerScalarFieldEnum]
