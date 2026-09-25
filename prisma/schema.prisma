@@ -24,6 +24,7 @@ model Business {
   products Product[]
   orders   Order[]
   category Category[]
+  banners  Banner[]
 }
 
 // ---------------------------------------
@@ -158,3 +159,21 @@ model OrderItem {
   variantId Int
   variant   Variant @relation(fields: [variantId], references: [id])
 }
+
+// ---------------------------------------
+// BANNER — Promotional banners (desktop & mobile)
+// ---------------------------------------
+model Banner {
+  id              Int      @id @default(autoincrement())
+  title           String
+  desktopImageUrl String
+  mobileImageUrl  String
+  link            String?
+  isActive        Boolean  @default(true)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  businessId Int
+  business   Business @relation(fields: [businessId], references: [id])
+}
+
